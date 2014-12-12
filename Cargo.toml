@@ -1,0 +1,7 @@
+[package]
+
+name = "cowrc"
+version = "0.0.1"
+authors = ["Ty Overby <ty@pre-alpha.com>"]
+license = "MIT"
+description = "A set of copy-on-write smart pointers."
