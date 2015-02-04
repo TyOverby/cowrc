@@ -3,12 +3,12 @@ use std::rc::Rc;
 use std::sync::Arc;
 
 
-#[deriving(Clone, Hash, Default, PartialEq, Eq, PartialOrd, Ord, Show)]
+#[derive(Clone, Hash, Default, PartialEq, Eq, PartialOrd, Ord, Debug)]
 pub struct CowRc<T> {
     v: Rc<T>
 }
 
-#[deriving(Clone, Hash, PartialEq, Eq, PartialOrd, Ord, Show)]
+#[derive(Clone, Hash, PartialEq, Eq, PartialOrd, Ord, Debug)]
 pub struct CowArc<T> {
     v: Arc<T>
 }
@@ -29,25 +29,27 @@ impl <T: Clone + Sync + Send> CowArc<T> {
     }
 }
 
-impl <T> Deref<T> for CowRc<T> {
+impl <T> Deref for CowRc<T> {
+    type Target = T;
     fn deref(&self) -> &T {
         self.v.deref()
     }
 }
 
-impl <T: Clone> DerefMut<T> for CowRc<T> {
+impl <T: Clone> DerefMut for CowRc<T> {
     fn deref_mut(&mut self) -> &mut T {
         self.v.make_unique()
     }
 }
 
-impl <T: Clone + Sync + Send> Deref<T> for CowArc<T> {
+impl <T: Clone + Sync + Send> Deref for CowArc<T> {
+    type Target = T;
     fn deref(&self) -> &T {
         self.v.deref()
     }
 }
 
-impl <T: Clone + Sync + Send> DerefMut<T> for CowArc<T> {
+impl <T: Clone + Sync + Send> DerefMut for CowArc<T> {
     fn deref_mut(&mut self) -> &mut T {
         self.v.make_unique()
     }
